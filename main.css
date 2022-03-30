@@ -1,0 +1,26 @@
+html, body {
+    margin:0px;
+}
+
+#container {
+	position: relative;
+	top: 30px;
+	outline:1px solid #000;
+	font-size: 0;
+	margin:auto;
+    height:100%;
+	width:100%;
+	padding: 0;
+	border: none;
+}
+
+.cell {
+	margin:0;
+	padding:0;
+	border:none;
+	outline:1px solid #000;
+	display:inline-block;
+    height:100%;
+    width:100%;
+}
+ 
