@@ -19,7 +19,7 @@ class RuntimeContext {
         return this.theme[this.currentTheme][1];
     }
 
-    speed = [0, 200, 400, 600, 1000, 2000, 5000];
+    speed = [0, 200, 400, 600, 1000, 2000, 50000];
 }
 
 var context = new RuntimeContext();
@@ -101,7 +101,7 @@ export function sessionTick(){
 function myFunctionLive(value) {  
     var r = value[0];
     var c = value[1];
-    console.log("Update living color " + context.getCurrentLivingColor());
+    // console.log("Update living color " + context.getCurrentLivingColor());
     $("#"+r+"_"+c).css("background-color", context.getCurrentLivingColor());
     //console.log("myFunctionLive " + r + " " + c);
 }
@@ -109,7 +109,7 @@ function myFunctionLive(value) {
 function myFunctionDie(value) {
     var r = value[0];
     var c = value[1];
-    console.log("Update dead color " + context.getCurrentDeadColor());
+    // console.log("Update dead color " + context.getCurrentDeadColor());
     $("#"+r+"_"+c).css("background-color", context.getCurrentDeadColor());
     //console.log("myFunctionDie " + r + " " + c);
 }
@@ -135,7 +135,7 @@ export function switchTheme(e) {
     $(".cell").css("background-color", context.getCurrentDeadColor());
     model.getLivingCells().forEach(function (value, index) {
         console.log(" r:" + value[0] + " c:" + value[1])
-        $("#"+row+"_"+column).css("background-color", context.getCurrentLivingColor()); 
+        $("#"+ value[0]+"_"+value[1]).css("background-color", context.getCurrentLivingColor()); 
     });
 
   }

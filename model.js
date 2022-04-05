@@ -1,11 +1,12 @@
 class Grid {
-    constructor(rows, cols) {
-        this.rows = rows;
-        this.cols = cols;
+    constructor(prows, pcols) {
+        this.rows = prows;
+        this.cols = pcols;
 
-        console.log("create Grid " + rows + " " + cols);
+        //console.log("create Grid " + this.rows + " " + this.cols);
+        //console.log("create Grid typeof " + (typeof this.rows) + " " + (typeof this.cols));
 
-        this.cells = new Array(rows*cols).fill(false);
+        this.cells = new Array(this.rows*this.cols).fill(false);
         //console.log("length " + this.cells.length + " " + rows*cols);
     }
 
@@ -27,34 +28,21 @@ class Grid {
 
     setState(row, column, state) {
         this.cells[this.getIndex(row, column)] = state;
-        //console.log(this.cell);
     }
 
-    // TODO skriv test
     getLivingCells() {
+        //console.log('this.cols : ' + this.cols);
+        //console.log('this.cols typeof : ' + (typeof this.cols));
         var livingCells = new Array();
-        this.grid.cells.forEach(function (value, indx) {
+        var nofCols = this.cols;
+        this.cells.forEach(function (value, index) {
             if (value) {
-                livingCells.push([Math.round(r/this.grid),c%this.grid]);
+                //console.log("index/noCols " + index + "/" + nofCols + "=" + Math.floor(index/nofCols));
+                //console.log("index%noCols " + index + "/" + nofCols + "=" + index%nofCols);
+                livingCells.push([Math.floor(index/nofCols),index%nofCols]);
             }
         })
         return livingCells;
-    }
-
-}
-
-function createModel(rows, cols) {
-    return new Model(rows, cols);
-}
-
-// TODO move to own file
-class Model {
-    constructor(rows, cols) {
-        this.grid = new Grid(rows, cols);
-    }
-
-    click(row, col) {
-        this.grid.setState(row, col, true);
     }
 
     adjacentCells = [[-1, -1], [-1, 0], [-1, 1],
@@ -69,20 +57,20 @@ class Model {
             var c = point[1] + column;
 
             if (r==-1) {
-                r = this.grid.rows - 1;
+                r = this.rows - 1;
             }
-            if (r==this.grid.rows) {
+            if (r==this.rows) {
                 r = 0;
             }
 
             if (c==-1) {
-                c = this.grid.cols - 1;
+                c = this.cols - 1;
             }
-            if (c==this.grid.cols) {
+            if (c==this.cols) {
                 c = 0;
             }
 
-            if (this.grid.value(r, c)) {
+            if (this.value(r, c)) {
                 count++;
             }
         }
@@ -94,14 +82,35 @@ class Model {
         return count;
     }
 
+}
+
+function createModel(rows, cols) {
+    return new GridController(rows, cols);
+}
+
+// TODO move to own file
+class GridController {
+    constructor(rows, cols) {
+        this.grid = new Grid(rows, cols);
+    }
+
+    click(row, col) {
+        this.grid.setState(row, col, true);
+    }
+
+    unclick(row, col) {
+        this.grid.setState(row, col, false);
+    }
+
     // TODO need to handle thread safety with click-method???
     iterate() {
         var toLive = new Array();
         var toDie = new Array();
 
+        // TODO move iteration to model, pass lambda instead
         for (var r=0; r<this.grid.rows; r++) {
             for (var c=0; c<this.grid.cols; c++) {
-                var numberOfLivingNeighbours = this.livingNeighboursCount(r,c);
+                var numberOfLivingNeighbours = this.grid.livingNeighboursCount(r,c);
                 if (this.grid.value(r,c) == true) {
                     if (numberOfLivingNeighbours<2 || numberOfLivingNeighbours>3) {
                         toDie.push([r,c]);
@@ -125,5 +134,5 @@ class Model {
     }
 }
 
-export { Grid, Model };
+export { Grid, GridController as Model };
 
