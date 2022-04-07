@@ -90,22 +90,21 @@ function createModel(rows, cols) {
 
 // TODO move to own file
 class GridController {
+    clickedEvents = new Array();
+
     constructor(rows, cols) {
         this.grid = new Grid(rows, cols);
     }
 
     click(row, col) {
-        this.grid.setState(row, col, true);
-    }
-
-    unclick(row, col) {
-        this.grid.setState(row, col, false);
+        this.clickedEvents.push([row, col]);
     }
 
     // TODO need to handle thread safety with click-method???
     iterate() {
-        var toLive = new Array();
-        var toDie = new Array();
+        const toLive = Array.from(this.clickedEvents);
+        const toDie = new Array();
+        this.clickedEvents = new Array();
 
         // TODO move iteration to model, pass lambda instead
         for (var r=0; r<this.grid.rows; r++) {

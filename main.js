@@ -7,6 +7,10 @@ class RuntimeContext {
     repeater;
     nofThreads = 0;
     currentTheme = 1;
+
+    currentMouseOverStrategy = interactionClickOnMouseOver;
+    currentClickStrategy = interactionNop;
+    
     theme = {1:["black", "white"],
              2:["white", "black"],
              3:["#DD0000", "#0000DD"]};
@@ -19,12 +23,32 @@ class RuntimeContext {
         return this.theme[this.currentTheme][1];
     }
 
+    getCurrentSpeed() {
+        return this.speed[this.currentTheme][0];
+    }
+
     speed = [0, 200, 400, 600, 1000, 2000, 50000];
 }
 
 var context = new RuntimeContext();
 
-// function that builds a grid in the "container"
+function createInteractionMenu() {
+    const interactStrategy = [
+        ["moverD", "Drag", interactionClickOnMouseOver, interactionNop],
+        ["moverM", "Missil", interactionNop, interactionGliderOnClick],
+        ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick]
+    ];
+
+    interactStrategy.forEach(function(s) {
+        $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
+        $( "#" + s[0] ).click(function () {
+            console.log("Change to " + s[1]);
+            context.currentMouseOverStrategy = s[2];
+            context.currentClickStrategy = s[3];
+        })
+    });
+}
+
 function createGrid() {
     var cellSize = 25
     var box = document.querySelector('#container');
@@ -51,11 +75,44 @@ function createGrid() {
     $(".cell").mouseover(function(e, h) {
         var r = parseInt($(this).attr("row"));
         var c = parseInt($(this).attr("col"));
-        model.click(r, c);
-        console.log("Click living color " + context.getCurrentLivingColor());
-        $(this).css("background-color", context.getCurrentLivingColor());
+        context.currentMouseOverStrategy(r,c);
+        // var r = parseInt($(this).attr("row"));
+        // var c = parseInt($(this).attr("col"));
+        //model.click(r, c);
+        //console.log("Click living color " + context.getCurrentLivingColor());
+        //$(this).css("background-color", context.getCurrentLivingColor());
+        //context.currentMouseOverStrategy.apply(e,h);
+    });
+
+    $(".cell").click(function(e, h) {
+        var r = parseInt($(this).attr("row"));
+        var c = parseInt($(this).attr("col"));
+        context.currentClickStrategy(r,c);
+        // var r = parseInt($(this).attr("row"));
+        // var c = parseInt($(this).attr("col"));
+        //model.click(r, c);
+        //console.log("Click living color " + context.getCurrentLivingColor());
+        //$(this).css("background-color", context.getCurrentLivingColor());
+        //context.currentMouseOverStrategy.apply(e,h);
     });
 };
+
+function interactionClickOnMouseOver(r, c) {
+    model.click(r, c);
+}
+
+function interactionNop(r, c) {
+    // Do nothing
+    // console.log("Do nothing");
+}
+
+function interactionGliderOnClick(r, c) {
+    model.click(r, c);
+}
+
+function interactionBlinkOnClick(r, c) {
+    model.click(r, c);
+}
 
 // function that clears the grid
 function clearGrid(){
@@ -82,6 +139,7 @@ function resizedw(){
 }
 
 $(document).ready(function() {
+    createInteractionMenu();
     createGrid();
     context.repeater = setInterval(sessionTick, getSpeed());
 });

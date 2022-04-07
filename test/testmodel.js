@@ -2,8 +2,8 @@ import {Grid, Model} from '../model.js';
 import { strict as assert } from 'assert';
 
 function verifyModel(result, expectedToLive, expectedToDie) {
-  assert.equal(result[0].length, expectedToLive.length, "Length not correct " + result[0].length + " != " + expectedToLive.length);
-  assert.equal(result[1].length, expectedToLive.length, "Length not correct " + result[1].length + " != " + expectedToDie.length);
+  assert.equal(result[0].length, expectedToLive.length, "Length toLive not correct " + result[0].length + " != " + expectedToLive.length);
+  assert.equal(result[1].length, expectedToLive.length, "Length toDie not correct " + result[1].length + " != " + expectedToDie.length);
 }
 
 
@@ -27,6 +27,11 @@ describe('create empty model', function () {
       uut.click(2,2);
       
       var res = uut.iterate();
+
+      assert.equal(res[0].length, 8, "Wrong number of toLive");
+      assert.equal(res[1].length, 0, "Wrong number of toDie");
+
+      res = uut.iterate();
       //console.log(JSON.stringify(res));
 
       assert.equal(res[0].length, 0, "Wrong number of toLive");
@@ -42,6 +47,11 @@ describe('create empty model', function () {
 
  
     var res = uut.iterate();
+
+    assert.equal(res[0].length, 3, "Wrong number of toLive");
+    assert.equal(res[1].length, 0, "Wrong number of toDie");
+
+     res = uut.iterate();
     //console.log(JSON.stringify(res));
 
     assert.equal(res[0].length, 6, "Wrong number of toLive");
