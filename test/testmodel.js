@@ -60,10 +60,23 @@ describe('create empty model', function () {
     
     // Ok, lets finish them all
     res = uut.iterate();
-    console.log(JSON.stringify(res));
+    //console.log(JSON.stringify(res));
 
     assert.equal(res[0].length, 0, "Wrong number of toLive");
     assert.equal(res[1].length, 9, "Wrong number of toDie");
+});
+
+it("wrap clicks outside border", function () {
+  var uut = new Model(3,3);
+  uut.click(-10,-10);
+  uut.click(10,10);
+  uut.click(-1,-1);
+  uut.click(3,3);
+
+  var res = uut.iterate();
+
+  assert.equal(res[0].length, 4, "Wrong number of toLive");
+  assert.equal(JSON.stringify(res[0]), JSON.stringify([[2,2], [1,1], [2,2], [0,0]]), "Wrong content in list");
 });
     
 });

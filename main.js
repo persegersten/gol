@@ -107,11 +107,23 @@ function interactionNop(r, c) {
 }
 
 function interactionGliderOnClick(r, c) {
-    model.click(r, c);
+    model.click(r-1, c-1);
+    model.click(r-1, c);
+    model.click(r-1, c+1);
+    model.click(r, c-1);
+    model.click(r+1, c);
 }
 
 function interactionBlinkOnClick(r, c) {
-    model.click(r, c);
+    model.click(r, c-4);
+    model.click(r, c-3);
+    model.click(r, c-2);
+    model.click(r, c-1);
+    model.click(r, c-0);
+    model.click(r, c+1);
+    model.click(r, c+2);
+    model.click(r, c+3);
+    model.click(r, c+4);
 }
 
 // function that clears the grid

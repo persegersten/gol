@@ -97,6 +97,18 @@ class GridController {
     }
 
     click(row, col) {
+        while (row<0) {
+            row+=this.grid.rows;
+        }
+        while (row>=this.grid.rows) {
+            row-=this.grid.rows;
+        }
+        while (col<0) {
+            col+=this.grid.cols;
+        }
+        while (col>=this.grid.cols) {
+            col-=this.grid.cols;
+        }
         this.clickedEvents.push([row, col]);
     }
 
