@@ -39,14 +39,19 @@ function createInteractionMenu() {
         ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick]
     ];
 
+    $("#interaction").append("<span id='currentPattern'>Drag</span>&nbsp;");
+
     interactStrategy.forEach(function(s) {
         $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
         $( "#" + s[0] ).click(function () {
             console.log("Change to " + s[1]);
             context.currentMouseOverStrategy = s[2];
             context.currentClickStrategy = s[3];
+            $("#currentPattern").text(s[1]);
         })
     });
+
+    
 }
 
 function createGrid() {
