@@ -23,11 +23,10 @@ class RuntimeContext {
         return this.theme[this.currentTheme][1];
     }
 
-    getCurrentSpeed() {
-        return this.speed[this.currentTheme][0];
-    }
-
-    speed = [0, 200, 400, 600, 1000, 2000, 50000];
+    speedName = ["Super fast", "Extemely fast", "Fast", "Normal", "Slow", "Super slow", "Almost still"];
+    speedIteration = [0, 200, 200, 200, 200, 200, 200];
+    speedMod = [-1, -1, 2, 4, 10, 50, 250];
+    currentSpeedMod = -1;
 }
 
 var context = new RuntimeContext();
@@ -161,12 +160,23 @@ $(document).ready(function() {
     context.repeater = setInterval(sessionTick, getSpeed());
 });
 
+var globalCounter = 0;
+var counter = 0;
 export function sessionTick(){
     if (context.nofThreads > 0) {
         console.log("WARNING nofThreads=" + context.nofThreads);
     }
     context.nofThreads++;
-    var result = model.iterate()
+    counter++;
+    globalCounter++;
+    var result;
+    if (counter >= context.currentSpeedMod) {
+        console.log("Do iteration2 " + counter%context.currentSpeedMod);
+        result = model.iterate();
+        counter = 0;
+    } else {
+        result = model.iterateEvents();
+    }
     //console.log("tick " + JSON.stringify(result));
     result[0].forEach(myFunctionLive);
     result[1].forEach(myFunctionDie);
@@ -197,7 +207,10 @@ $('#chanceSlider').on('change', function(){
 });
 
 function getSpeed() {
-    return context.speed[$('#chanceSlider').val()];
+    const index = $('#chanceSlider').val();
+    context.currentSpeedMod = context.speedMod[index];
+    $('#speedName').text(context.speedName[index]+ " " + globalCounter);
+    return context.speedIteration[index];
 }
 
 export function switchTheme(e) {
@@ -209,7 +222,7 @@ export function switchTheme(e) {
     console.log(" rs:" + model.grid.rows + " cs:" + model.grid.cols)
     $(".cell").css("background-color", context.getCurrentDeadColor());
     model.getLivingCells().forEach(function (value, index) {
-        console.log(" r:" + value[0] + " c:" + value[1])
+        // console.log(" r:" + value[0] + " c:" + value[1])
         $("#"+ value[0]+"_"+value[1]).css("background-color", context.getCurrentLivingColor()); 
     });
 

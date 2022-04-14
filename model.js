@@ -112,32 +112,43 @@ class GridController {
         this.clickedEvents.push([row, col]);
     }
 
-    // TODO need to handle thread safety with click-method???
-    iterate() {
+    iterateImpl(onlyEvents) {
         const toLive = Array.from(this.clickedEvents);
         const toDie = new Array();
         this.clickedEvents = new Array();
 
-        // TODO move iteration to model, pass lambda instead
-        for (var r=0; r<this.grid.rows; r++) {
-            for (var c=0; c<this.grid.cols; c++) {
-                var numberOfLivingNeighbours = this.grid.livingNeighboursCount(r,c);
-                if (this.grid.value(r,c) == true) {
-                    if (numberOfLivingNeighbours<2 || numberOfLivingNeighbours>3) {
-                        toDie.push([r,c]);
-                    }
-                } else {
-                    if (numberOfLivingNeighbours == 3) {
-                        toLive.push([r,c]);
+        if (!onlyEvents) {
+            // TODO move iteration to model, pass lambda instead
+            for (var r=0; r<this.grid.rows; r++) {
+                for (var c=0; c<this.grid.cols; c++) {
+                    var numberOfLivingNeighbours = this.grid.livingNeighboursCount(r,c);
+                    if (this.grid.value(r,c) == true) {
+                        if (numberOfLivingNeighbours<2 || numberOfLivingNeighbours>3) {
+                            toDie.push([r,c]);
+                        }
+                    } else {
+                        if (numberOfLivingNeighbours == 3) {
+                            toLive.push([r,c]);
+                        }
                     }
                 }
             }
+
+            toDie.forEach(p => this.grid.setState(p[0], p[1], false) );
         }
 
         toLive.forEach(p => this.grid.setState(p[0], p[1], true) );
-        toDie.forEach(p => this.grid.setState(p[0], p[1], false) );
+        
 
         return [toLive, toDie];
+    }
+
+    iterate() {
+        return this.iterateImpl(false);
+    }
+
+    iterateEvents() {
+        return this.iterateImpl(true);
     }
 
     getLivingCells() {
