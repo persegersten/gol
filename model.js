@@ -91,6 +91,7 @@ function createModel(rows, cols) {
 // TODO move to own file
 class GridController {
     clickedEvents = new Array();
+    restoredEvents = new Array();
 
     constructor(rows, cols) {
         this.grid = new Grid(rows, cols);

@@ -13,16 +13,18 @@
 		module.sessionTickFromModule = sessionTick;
 		module.switchThemeFromModule = switchTheme;
 	</script>
-	<!-- <button onclick="module.sessionTickFromModule()">Click me</button>
-	-->  
+	<button id="settings">Settings</button>
+	<div id="interaction">
 	<select id="theme-selector" onchange="module.switchThemeFromModule()">
 		<option value="1">Theme 1</option>
 		<option value="2">Theme 2</option>
 		<option value="3">Theme 3</option>
 	</select>
-	</span><input type="range" id="chanceSlider" class="vHorizon" min="0" max="6" step="1" style="background-color: #00aec8; width: 25%;">
+	<br>
+	<input type="range" id="chanceSlider" class="vHorizon" min="0" max="6" step="1" style="background-color: #00aec8; width: 25%;">
 	Speed: <span id="speedName"></span>
-	<div id="interaction"></div>
+	<br>
+    </div>
 	<div id="container"></div>
 </body>
 

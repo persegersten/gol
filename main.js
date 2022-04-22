@@ -11,9 +11,9 @@ class RuntimeContext {
     currentMouseOverStrategy = interactionClickOnMouseOver;
     currentClickStrategy = interactionNop;
     
-    theme = {1:["black", "white"],
-             2:["white", "black"],
-             3:["#DD0000", "#0000DD"]};
+    theme = {1:["black", "white", "red"],
+             2:["white", "black", "green"],
+             3:["#DD0000", "#0000DD", "#00DD00"]};
 
     getCurrentLivingColor() {
         return this.theme[this.currentTheme][0];
@@ -21,6 +21,10 @@ class RuntimeContext {
 
     getCurrentDeadColor() {
         return this.theme[this.currentTheme][1];
+    }
+
+    getCurrentFocusColor() {
+        return this.theme[this.currentTheme][2];
     }
 
     speedName = ["Super fast", "Extemely fast", "Fast", "Normal", "Slow", "Super slow", "Almost still"];
@@ -38,8 +42,6 @@ function createInteractionMenu() {
         ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick]
     ];
 
-    $("#interaction").append("<span id='currentPattern'>Drag</span>&nbsp;");
-
     interactStrategy.forEach(function(s) {
         $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
         $( "#" + s[0] ).click(function () {
@@ -48,6 +50,13 @@ function createInteractionMenu() {
             context.currentClickStrategy = s[3];
             $("#currentPattern").text(s[1]);
         })
+    });
+
+    $("#interaction").append("&nbsp;<span id='currentPattern'>Drag</span>&nbsp;");
+
+    $("#settings").click(function () {
+        console.log("Settings toggle");
+        $("#interaction").toggle(); 
     });
 
     
@@ -84,8 +93,19 @@ function createGrid() {
         // var c = parseInt($(this).attr("col"));
         //model.click(r, c);
         //console.log("Click living color " + context.getCurrentLivingColor());
-        //$(this).css("background-color", context.getCurrentLivingColor());
+
+        $(this).css("background-color", context.getCurrentFocusColor());
         //context.currentMouseOverStrategy.apply(e,h);
+    });
+
+    $(".cell").mouseout(function(e, h) {
+        var r = parseInt($(this).attr("row"));
+        var c = parseInt($(this).attr("col"));
+        if (model.grid.value(r, c)) {
+            $(this).css("background-color", context.getCurrentLivingColor());   
+        } else {
+            $(this).css("background-color", context.getCurrentDeadColor());
+        }
     });
 
     $(".cell").click(function(e, h) {
@@ -171,7 +191,7 @@ export function sessionTick(){
     globalCounter++;
     var result;
     if (counter >= context.currentSpeedMod) {
-        console.log("Do iteration2 " + counter%context.currentSpeedMod);
+        //console.log("Do iteration2 " + counter%context.currentSpeedMod);
         result = model.iterate();
         counter = 0;
     } else {
@@ -209,7 +229,7 @@ $('#chanceSlider').on('change', function(){
 function getSpeed() {
     const index = $('#chanceSlider').val();
     context.currentSpeedMod = context.speedMod[index];
-    $('#speedName').text(context.speedName[index]+ " " + globalCounter);
+    $('#speedName').text(context.speedName[index]);
     return context.speedIteration[index];
 }
 
@@ -219,7 +239,7 @@ export function switchTheme(e) {
     console.log('Change theme to: ' + theme)
 
     // $("#container").append("<div class='cell' id='" + row + "_" + column + "' row='" + row + "' col='" + column + "'></div>");
-    console.log(" rs:" + model.grid.rows + " cs:" + model.grid.cols)
+    //console.log(" rs:" + model.grid.rows + " cs:" + model.grid.cols)
     $(".cell").css("background-color", context.getCurrentDeadColor());
     model.getLivingCells().forEach(function (value, index) {
         // console.log(" r:" + value[0] + " c:" + value[1])
