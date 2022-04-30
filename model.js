@@ -97,7 +97,20 @@ class GridController {
         this.grid = new Grid(rows, cols);
     }
 
+    clicks(cordinates) {
+        cordinates.forEach(entry => this.click(entry[0], entry[1]));
+        //cordinates.forEach(entry => 
+        //    console.log("this.click(%s, %s)", entry[0], entry[1])
+        //    );
+        //this.clickedEvents.push(cordinates);
+        //console.log(JSON.stringify(this.clickedEvents));
+    }
+
     click(row, col) {
+        this.clickedEvents.push([row, col]);
+    }
+
+    adjustCoords(row, col) {
         while (row<0) {
             row+=this.grid.rows;
         }
@@ -110,11 +123,12 @@ class GridController {
         while (col>=this.grid.cols) {
             col-=this.grid.cols;
         }
-        this.clickedEvents.push([row, col]);
+        return [row, col];
     }
 
     iterateImpl(onlyEvents) {
-        const toLive = Array.from(this.clickedEvents);
+        //const toLive = Array.from(this.clickedEvents);
+        const toLive = this.clickedEvents.map(e => this.adjustCoords(e[0], e[1]));
         const toDie = new Array();
         this.clickedEvents = new Array();
 
