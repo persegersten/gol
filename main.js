@@ -57,9 +57,52 @@ function createInteractionMenu() {
     $("#settings").click(function () {
         console.log("Settings toggle");
         $("#interaction").toggle(); 
-    });
+    });    
+}
 
-    
+var currentFocusLocation = [0,0];
+var lastFocusLocation = [0,0];
+function currentFocus(r,c) {
+    currentFocusLocation = [r,c];
+   var direction = getDirection(currentFocusLocation, lastFocusLocation);
+   
+   // console.log("Direction: " + direction + " " 
+   // + JSON.stringify(currentFocusLocation)+ " " 
+   // + JSON.stringify(lastFocusLocation));
+
+   $("#direction").text(direction);
+}
+
+function currentFocusElapse() {
+    lastFocusLocation = currentFocusLocation;
+}
+
+function getDirection(curr, last) {
+    if (curr[0] < last[0]) {
+        if (curr[1] < last[1]) {
+            return "upper-left";
+        } else if (curr[1] == last[1]) {
+            return "up";
+        } else { // curr[1] > last[1]
+            return "upper-right";
+        }
+    } else if (curr[0] == last[0]) {
+        if (curr[1] < last[1]) {
+            return "left";
+        } else if (curr[1] == last[1]) {
+            return "center";
+        } else { // curr[1] > last[1]
+            return "right";
+        }
+    } else { // curr[0] > last[0]
+        if (curr[1] < last[1]) {
+            return "lower-left";
+        } else if (curr[1] == last[1]) {
+            return "down";
+        } else { // curr[1] > last[1]
+            return "lower-rigth";
+        }
+    }
 }
 
 function createGrid() {
@@ -78,7 +121,6 @@ function createGrid() {
         };
     };
 
-    
     $(".cell").width(cellSize);
     $(".cell").height(cellSize);
     $(".cell").css("background-color", context.getCurrentDeadColor());
@@ -89,13 +131,10 @@ function createGrid() {
         var r = parseInt($(this).attr("row"));
         var c = parseInt($(this).attr("col"));
         context.currentMouseOverStrategy(r,c);
-        // var r = parseInt($(this).attr("row"));
-        // var c = parseInt($(this).attr("col"));
-        //model.click(r, c);
-        //console.log("Click living color " + context.getCurrentLivingColor());
+
+        currentFocus(r,c);
 
         $(this).css("background-color", context.getCurrentFocusColor());
-        //context.currentMouseOverStrategy.apply(e,h);
     });
 
     $(".cell").mouseout(function(e, h) {
@@ -112,12 +151,7 @@ function createGrid() {
         var r = parseInt($(this).attr("row"));
         var c = parseInt($(this).attr("col"));
         context.currentClickStrategy(r,c);
-        // var r = parseInt($(this).attr("row"));
-        // var c = parseInt($(this).attr("col"));
-        //model.click(r, c);
-        //console.log("Click living color " + context.getCurrentLivingColor());
-        //$(this).css("background-color", context.getCurrentLivingColor());
-        //context.currentMouseOverStrategy.apply(e,h);
+    
     });
 };
 
@@ -127,7 +161,6 @@ function interactionClickOnMouseOver(r, c) {
 
 function interactionNop(r, c) {
     // Do nothing
-    // console.log("Do nothing");
 }
 
 function interactionGliderOnClick(r, c) {
@@ -190,6 +223,7 @@ export function sessionTick(){
     if (context.nofThreads > 0) {
         console.log("WARNING nofThreads=" + context.nofThreads);
     }
+    currentFocusElapse();
     context.nofThreads++;
     counter++;
     globalCounter++;
@@ -210,17 +244,13 @@ export function sessionTick(){
 function myFunctionLive(value) {  
     var r = value[0];
     var c = value[1];
-    // console.log("Update living color " + context.getCurrentLivingColor());
     $("#"+r+"_"+c).css("background-color", context.getCurrentLivingColor());
-    //console.log("myFunctionLive " + r + " " + c);
 }
 
 function myFunctionDie(value) {
     var r = value[0];
     var c = value[1];
-    // console.log("Update dead color " + context.getCurrentDeadColor());
     $("#"+r+"_"+c).css("background-color", context.getCurrentDeadColor());
-    //console.log("myFunctionDie " + r + " " + c);
 }
 
 
@@ -242,13 +272,11 @@ export function switchTheme(e) {
     context.currentTheme = theme;
     console.log('Change theme to: ' + theme)
 
-    // $("#container").append("<div class='cell' id='" + row + "_" + column + "' row='" + row + "' col='" + column + "'></div>");
-    //console.log(" rs:" + model.grid.rows + " cs:" + model.grid.cols)
     $(".cell").css("background-color", context.getCurrentDeadColor());
     model.getLivingCells().forEach(function (value, index) {
-        // console.log(" r:" + value[0] + " c:" + value[1])
         $("#"+ value[0]+"_"+value[1]).css("background-color", context.getCurrentLivingColor()); 
     });
 
   }
+   
 
