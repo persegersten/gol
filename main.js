@@ -8,8 +8,8 @@ class RuntimeContext {
     nofThreads = 0;
     currentTheme = 1;
 
-    currentMouseOverStrategy = interactionClickOnMouseOver;
-    currentClickStrategy = interactionNop;
+    currentMouseOverStrategy = interactionNop;
+    currentClickStrategy = interactionDirectionAwareGliderOnClick;
     
     theme = {1:["black", "white", "red"],
              2:["white", "black", "green"],
@@ -31,6 +31,7 @@ class RuntimeContext {
     speedIteration = [0, 200, 200, 200, 200, 200, 200];
     speedMod = [-1, -1, 2, 4, 10, 50, 250];
     currentSpeedMod = -1;
+    currentDirection = "cnter";
 }
 
 var context = new RuntimeContext();
@@ -39,13 +40,15 @@ function createInteractionMenu() {
     const interactStrategy = [
         ["moverD", "Drag", interactionClickOnMouseOver, interactionNop],
         ["moverM", "Missil", interactionNop, interactionGliderOnClick],
-        ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick]
+        ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick],
+        ["moverDir", "Direction", interactionNop, interactionDirectionAwareGliderOnClick]
     ];
-
+    //console.log("Hi there");
     interactStrategy.forEach(function(s) {
+        //console.log(s[0]);
         $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
         $( "#" + s[0] ).click(function () {
-            console.log("Change to " + s[1]);
+            //console.log("Change to " + s[1]);
             context.currentMouseOverStrategy = s[2];
             context.currentClickStrategy = s[3];
             $("#currentPattern").text(s[1]);
@@ -63,14 +66,9 @@ function createInteractionMenu() {
 var currentFocusLocation = [0,0];
 var lastFocusLocation = [0,0];
 function currentFocus(r,c) {
-    currentFocusLocation = [r,c];
-   var direction = getDirection(currentFocusLocation, lastFocusLocation);
-   
-   // console.log("Direction: " + direction + " " 
-   // + JSON.stringify(currentFocusLocation)+ " " 
-   // + JSON.stringify(lastFocusLocation));
-
-   $("#direction").text(direction);
+   currentFocusLocation = [r,c];
+   context.currentDirection = getDirection(currentFocusLocation, lastFocusLocation);
+   $("#direction").text(context.currentDirection);
 }
 
 function currentFocusElapse() {
@@ -100,7 +98,7 @@ function getDirection(curr, last) {
         } else if (curr[1] == last[1]) {
             return "down";
         } else { // curr[1] > last[1]
-            return "lower-rigth";
+            return "lower-right";
         }
     }
 }
@@ -163,13 +161,134 @@ function interactionNop(r, c) {
     // Do nothing
 }
 
+function glider_nw(r,c) {
+    model.clicks (
+[
+    [r-1, c-1], [r-1, c], [r-1, c+1],
+    [r, c-1]  ,    
+                [r+1, c]
+]); 
+}
+
+function glider_ne(r,c) {
+    model.clicks ( 
+[
+    [r-1, c-1], [r-1, c], [r-1, c+1],
+                          [r, c+1] ,    
+                [r+1, c]
+]);
+}
+
+function glider_sw(r,c) {
+    model.clicks (  
+[
+                [r-1, c],
+    [r, c-1]  ,
+    [r+1, c-1], [r+1, c], [r+1, c+1]
+]);
+}
+
+function glider_se(r,c) {
+    model.clicks ( 
+[
+                [r-1, c],
+                          [r, c+1],
+    [r+1, c-1], [r+1, c], [r+1, c+1]
+]);
+}
+
+function glider_w(r,c) {
+    model.clicks ( 
+[
+                [r-1, c-1],                 [r-1, c+2],
+    [r, c-2],
+    [r+1, c-2],                             [r+1, c+2],
+    [r+2, c-2], [r+2, c-1],[r+2, c],[r+2, c+1]
+]);
+}
+
+function glider_e(r,c) {
+    model.clicks ( 
+[
+    [r-1, c-2],                     [r-1, c+1],
+                                               [r, c+2],
+    [r+1, c-2],                                [r+1, c+2],
+               [r+2, c-1], [r+2, c],[r+2, c+1],[r+2, c+2]
+]);
+}
+
+function glider_expander(r,c) {
+    model.clicks ( 
+[
+    [r-2, c-1],                      [r-2, c+1],
+                                     [r-1, c+2],
+                                     [r, c+2],
+    [r+2, c-1],                      [r+2, c+2],
+                [r+3, c], [r+3, c+1],[r+3, c+2]
+]);
+}
+
+function glider_s(r,c) {
+    model.clicks ( 
+[
+    [r-2, c-1],           [r-2, c+1],
+                                     [r-1, c+2],
+                                     [r, c+2],
+    [r+1, c-1],                      [r+1, c+2],
+                [r+2, c], [r+2, c+1],[r+2, c+2]
+]);
+}
+
+function glider_n(r,c) {
+    model.clicks ( 
+[
+    [r-2, c-1],[r-2, c],[r-2, c+1],
+    [r-1, c-1],                     [r-1, c+2],
+    [r, c-1],
+    [r+1, c-1],                      
+               [r+2, c],            [r+2, c+2]
+]);
+}
+
+function blinker(r,c) {
+    model.clicks ( 
+        [
+    [r, c-4],
+    [r, c-3],
+    [r, c-2],
+    [r, c-1],
+    [r, c-0],
+    [r, c+1],
+    [r, c+2],
+    [r, c+3],
+    [r, c+4]
+]);
+}
+
+const directionMap = { 'upper-left':glider_nw,
+                       'up':glider_n,
+                       'upper-right':glider_ne,
+                    
+                       'left':glider_w,
+                       'center':blinker,
+                       'right':glider_e,
+
+                       'lower-left':glider_sw,
+                       'down':glider_s,
+                       'lower-right':glider_se
+                    };
+
+function interactionDirectionAwareGliderOnClick(r, c) {
+    var currDir = context.currentDirection;
+    //console.log('currDir = ' + currDir);
+    directionMap[currDir](r,c);
+}
+
 function interactionGliderOnClick(r, c) {
     model.clicks([
-        [r-1, c-1],
-        [r-1, c],
-        [r-1, c+1],
-        [r, c-1],
-        [r+1, c]
+        [r-1, c-1], [r-1, c], [r-1, c+1],
+        [r, c-1],    
+                    [r+1, c]
     ]);
 }
 
@@ -212,6 +331,7 @@ function resizedw(){
 }
 
 $(document).ready(function() {
+    console.log("Document ready");
     createInteractionMenu();
     createGrid();
     context.repeater = setInterval(sessionTick, getSpeed());
