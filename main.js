@@ -29,14 +29,15 @@ class RuntimeContext {
 
     speedName = ["Super fast", "Extemely fast", "Fast", "Normal", "Slow", "Super slow", "Almost still"];
     speedIteration = [0, 200, 200, 200, 200, 200, 200];
-    speedMod = [-1, -1, 2, 4, 10, 50, 250];
+    speedMod = [-1, -1, 2, 3, 5, 10, 50];
     currentSpeedMod = -1;
-    currentDirection = "cnter";
+    currentDirection = "center";
     theSpeedIndex = 1;
 
     createName = ["1", "2", "3", "4", "5", "6", "7"];
-    createValues = [0, 200, 200, 200, 200, 200, 200];
+    createValues = [0.3, 0.1, 0.07, 0.05, 0.03, 0.02, -1];
     theCreateIndex = 1;
+    createFunctions = [glider_expander, glider_nw, glider_sw, glider_n, glider_s];
 }
 
 var context = new RuntimeContext();
@@ -76,7 +77,6 @@ function createInteractionMenu() {
     $("#autocreaterange").change(function () {
         context.theCreateIndex = 6 - Math.floor($('#autocreaterange').val()/100*7);
         console.log("Autocreate set to: " + context.theCreateIndex); 
-        updateCreate();
     });
 }
 
@@ -120,14 +120,17 @@ function getDirection(curr, last) {
     }
 }
 
+var nofRows;
+var nofCols;
+
 function createGrid() {
     var cellSize = 25
     var box = document.querySelector('#container');
     var width = box.offsetWidth - 50;
     var height = box.offsetHeight - 150;
     
-    var nofRows = Math.ceil(height/cellSize + 1);
-    var nofCols = Math.ceil(width/cellSize + 1);
+    nofRows = Math.ceil(height/cellSize + 1);
+    nofCols = Math.ceil(width/cellSize + 1);
 
     for (var row = 0; row < nofRows; row++) {
         $("#container").append("<br>");
@@ -378,6 +381,17 @@ export function sessionTick(){
     // console.log("tick " + JSON.stringify(result));
     result[0].forEach(myFunctionLive);
     result[1].forEach(myFunctionDie);
+
+    var r = Math.random();
+    var p = context.createValues[context.theCreateIndex];
+    //console.log("r=" + r + " p=" + p);
+    if (r < p) {
+        //console("true");
+        randomCreate();
+    } else {
+        //console.log("false");
+    }
+
     context.nofThreads--;
 }
 
@@ -404,9 +418,17 @@ function updateSpeed() {
     context.repeater = setInterval(sessionTick, getSpeed());
 }
 
-function updateCreate() {
-    console.log("TODO ipml");
+function randomCreate() {
+    var index = getRandomInt(5);
+    var x = getRandomInt(nofCols);
+    var y = getRandomInt(nofRows);
+    console.log("Create index=" + index + " x="+ x + " y=" + y);
+    context.createFunctions[index](x,y);
 }
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 
 function getSpeed() {
     if ($('#chanceSlider').exists) {
