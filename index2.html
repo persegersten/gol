@@ -1,0 +1,30 @@
+<html>
+<html>
+<head>
+	<link rel=stylesheet type="text/css" href="main.css">
+	<!-- script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		const module = {};
+	</script>
+	<script type="module">
+		import {sessionTick, switchTheme} from "./main.js";
+		module.sessionTickFromModule = sessionTick;
+		module.switchThemeFromModule = switchTheme;
+	</script>
+	<div class="onoff">
+		<svg class="play" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M8 5v14l11-7z"></path></svg>
+		<svg class="stop visible" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M6 6h12v12H6z"></path></svg>
+	</div>
+	<div class="speed">
+		<input id="speedrange" type="range" min="0" max="99" value="75" title="Speed" aria-label="Speed">
+	</div>
+	<div class="create">
+		<input id="autocreaterange" type="range" min="0" max="99" value="75" title="Auto create" aria-label="Auto create">
+	</div>
+	<hr>
+	<div id="container"></div>
+</body>
+</html>

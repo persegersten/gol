@@ -32,6 +32,11 @@ class RuntimeContext {
     speedMod = [-1, -1, 2, 4, 10, 50, 250];
     currentSpeedMod = -1;
     currentDirection = "cnter";
+    theSpeedIndex = 1;
+
+    createName = ["1", "2", "3", "4", "5", "6", "7"];
+    createValues = [0, 200, 200, 200, 200, 200, 200];
+    theCreateIndex = 1;
 }
 
 var context = new RuntimeContext();
@@ -43,7 +48,7 @@ function createInteractionMenu() {
         ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick],
         ["moverDir", "Direction", interactionNop, interactionDirectionAwareGliderOnClick]
     ];
-    //console.log("Hi there");
+    console.log("Hi there");
     interactStrategy.forEach(function(s) {
         //console.log(s[0]);
         $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
@@ -60,7 +65,19 @@ function createInteractionMenu() {
     $("#settings").click(function () {
         console.log("Settings toggle");
         $("#interaction").toggle(); 
-    });    
+    });
+    
+    $("#speedrange").change(function () {
+        context.theSpeedIndex = 6 - Math.floor($('#speedrange').val()/100*7);
+        console.log("Speed set to: " + context.theSpeedIndex); 
+        updateSpeed();
+    });
+
+    $("#autocreaterange").change(function () {
+        context.theCreateIndex = 6 - Math.floor($('#autocreaterange').val()/100*7);
+        console.log("Autocreate set to: " + context.theCreateIndex); 
+        updateCreate();
+    });
 }
 
 var currentFocusLocation = [0,0];
@@ -320,8 +337,10 @@ $(window).resize((event) => {
 });
 
 function createRuntimeContext() {
-    let theme = document.getElementById("theme-selector").value;
-    context.currentTheme = theme;
+    if ($("theme-selector").length) {
+        let theme = document.getElementById("theme-selector").value;
+        context.currentTheme = theme;
+    } 
 }
 
 function resizedw(){
@@ -355,7 +374,8 @@ export function sessionTick(){
     } else {
         result = model.iterateEvents();
     }
-    //console.log("tick " + JSON.stringify(result));
+    // console.log("tick " + counter + " " + context.currentSpeedMod);
+    // console.log("tick " + JSON.stringify(result));
     result[0].forEach(myFunctionLive);
     result[1].forEach(myFunctionDie);
     context.nofThreads--;
@@ -376,15 +396,29 @@ function myFunctionDie(value) {
 
 
 $('#chanceSlider').on('change', function(){
-    clearInterval(context.repeater);
-    context.repeater = setInterval(sessionTick, getSpeed());
+    updateSpeed();
 });
 
+function updateSpeed() {
+    clearInterval(context.repeater);
+    context.repeater = setInterval(sessionTick, getSpeed());
+}
+
+function updateCreate() {
+    console.log("TODO ipml");
+}
+
 function getSpeed() {
-    const index = $('#chanceSlider').val();
-    context.currentSpeedMod = context.speedMod[index];
-    $('#speedName').text(context.speedName[index]);
-    return context.speedIteration[index];
+    if ($('#chanceSlider').exists) {
+        context.theSpeedIndex = $('#chanceSlider').val();
+        $('#speedName').text(context.speedName[context.theSpeedIndex]);
+        console.log("Got speed, sets to " + context.theSpeedIndex);
+    } else {
+        console.log("Alreday got speed, was set to " + context.theSpeedIndex);
+    }
+
+    context.currentSpeedMod = context.speedMod[context.theSpeedIndex];
+    return context.speedIteration[context.theSpeedIndex];
 }
 
 export function switchTheme(e) {
