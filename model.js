@@ -3,7 +3,7 @@ class Grid {
         this.rows = prows;
         this.cols = pcols;
 
-        //console.log("create Grid " + this.rows + " " + this.cols);
+       // console.log("create Grid nrows=" + this.rows + " ncols=" + this.cols);
         //console.log("create Grid typeof " + (typeof this.rows) + " " + (typeof this.cols));
 
         this.cells = new Array(this.rows*this.cols).fill(false);

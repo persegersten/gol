@@ -27,15 +27,15 @@ class RuntimeContext {
         return this.theme[this.currentTheme][2];
     }
 
-    speedName = ["Super fast", "Extemely fast", "Fast", "Normal", "Slow", "Super slow", "Almost still"];
-    speedIteration = [0, 200, 200, 200, 200, 200, 200];
-    speedMod = [-1, -1, 2, 3, 5, 10, 50];
+    speedName = ["Super fast", "Fast", "Normal", "Slow", "Super slow"];
+    speedIteration = [0, 200, 200, 200, 200];
+    speedMod = [-1, -1, 2, 3, 10];
     currentSpeedMod = -1;
     currentDirection = "center";
     theSpeedIndex = 1;
 
-    createName = ["1", "2", "3", "4", "5", "6", "7"];
-    createValues = [0.3, 0.1, 0.07, 0.05, 0.03, 0.02, -1];
+    createName = ["Wild", "Intense", "Normal", "Breeze", "Break"];
+    createValues = [0.3, 0.07, 0.03, 0.02, -1];
     theCreateIndex = 1;
     createFunctions = [glider_expander, glider_nw, glider_sw, glider_n, glider_s];
 }
@@ -69,15 +69,20 @@ function createInteractionMenu() {
     });
     
     $("#speedrange").change(function () {
-        context.theSpeedIndex = 6 - Math.floor($('#speedrange').val()/100*7);
-        console.log("Speed set to: " + context.theSpeedIndex); 
+        context.theSpeedIndex = 4 - Math.floor($('#speedrange').val()/100*5);
+        $("#speed").text(context.speedName[context.theSpeedIndex]);
+        console.log("Speed set to: " + context.theSpeedIndex + " - " + ontext.speedName[context.theSpeedIndex]); 
         updateSpeed();
     });
 
     $("#autocreaterange").change(function () {
-        context.theCreateIndex = 6 - Math.floor($('#autocreaterange').val()/100*7);
-        console.log("Autocreate set to: " + context.theCreateIndex); 
+        context.theCreateIndex = 4 - Math.floor($('#autocreaterange').val()/100*5);
+        $("#autocreate").text(context.createName[context.theCreateIndex]);
+        console.log("Autocreate set to: " + context.theCreateIndex + " - " + context.createName[context.theCreateIndex]); 
     });
+
+    $("#speed").text(context.speedName[context.theSpeedIndex]);
+    $("#autocreate").text(context.createName[context.theSpeedIndex]);
 }
 
 var currentFocusLocation = [0,0];
@@ -422,7 +427,7 @@ function randomCreate() {
     var index = getRandomInt(5);
     var x = getRandomInt(nofCols);
     var y = getRandomInt(nofRows);
-    console.log("Create index=" + index + " x="+ x + " y=" + y);
+    // console.log("Create nofCols="+ nofCols + " nofRows=" + nofRows + " index=" + index + " x="+ x + " y=" + y);
     context.createFunctions[index](x,y);
 }
 
