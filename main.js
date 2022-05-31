@@ -71,7 +71,7 @@ function createInteractionMenu() {
     $("#speedrange").change(function () {
         context.theSpeedIndex = 4 - Math.floor($('#speedrange').val()/100*5);
         $("#speed").text(context.speedName[context.theSpeedIndex]);
-        console.log("Speed set to: " + context.theSpeedIndex + " - " + ontext.speedName[context.theSpeedIndex]); 
+        console.log("Speed set to: " + context.theSpeedIndex + " - " + context.speedName[context.theSpeedIndex]); 
         updateSpeed();
     });
 
@@ -427,8 +427,8 @@ function randomCreate() {
     var index = getRandomInt(5);
     var x = getRandomInt(nofCols);
     var y = getRandomInt(nofRows);
-    // console.log("Create nofCols="+ nofCols + " nofRows=" + nofRows + " index=" + index + " x="+ x + " y=" + y);
-    context.createFunctions[index](x,y);
+    console.log("Create nofCols="+ nofCols + " nofRows=" + nofRows + " index=" + index + " x="+ x + " y=" + y);
+    context.createFunctions[index](y,x);
 }
 
 function getRandomInt(max) {
