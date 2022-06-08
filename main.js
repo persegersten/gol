@@ -83,6 +83,28 @@ function createInteractionMenu() {
 
     $("#speed").text(context.speedName[context.theSpeedIndex]);
     $("#autocreate").text(context.createName[context.theSpeedIndex]);
+
+    $("#btn_play").css("visibility", "hidden"); 
+    $("#btn_stop").css("visibility", "visible");
+
+    // Handler for the toggle button.
+    $("#btn_onoff").on("click", function(){
+        console.log("Clicked toggle");
+        $(this).toggleClass("active");
+        if($(this).hasClass("active")){
+            $("#btn_play").css("visibility", "visible"); 
+            $("#btn_stop").css("visibility", "hidden");
+            clearInterval(context.repeater);
+         } else {
+            $("#btn_play").css("visibility", "hidden"); 
+            $("#btn_stop").css("visibility", "visible");
+            context.repeater = setInterval(sessionTick, getSpeed());
+         }
+    });
+
+    $("#btn_refresh").on("click", function(){
+        createGrid();
+    });
 }
 
 var currentFocusLocation = [0,0];
@@ -427,7 +449,7 @@ function randomCreate() {
     var index = getRandomInt(5);
     var x = getRandomInt(nofCols);
     var y = getRandomInt(nofRows);
-    console.log("Create nofCols="+ nofCols + " nofRows=" + nofRows + " index=" + index + " x="+ x + " y=" + y);
+    // console.log("Create nofCols="+ nofCols + " nofRows=" + nofRows + " index=" + index + " x="+ x + " y=" + y);
     context.createFunctions[index](y,x);
 }
 
