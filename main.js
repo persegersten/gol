@@ -95,6 +95,7 @@ function createInteractionMenu() {
             $("#btn_play").css("visibility", "visible"); 
             $("#btn_stop").css("visibility", "hidden");
             clearInterval(context.repeater);
+            context.repeater = null;
          } else {
             $("#btn_play").css("visibility", "hidden"); 
             $("#btn_stop").css("visibility", "visible");
@@ -105,7 +106,6 @@ function createInteractionMenu() {
     $("#btn_refresh").on("click", function(){
         console.log("Refresh");
         resetModel();
-
     });
 }
 
@@ -392,7 +392,11 @@ function resetModel() {
     clearInterval(context.repeater);
     var result = model.resetAllGrids();
     result.forEach(myFunctionDie);
-    context.repeater = setInterval(sessionTick, getSpeed());
+    console.log("Killed cells - " + JSON.stringify(result));
+    console.log("Living cells - " + JSON.stringify(model.getLivingCells()));
+    if (context.repeater!=null) {
+        context.repeater = setInterval(sessionTick, getSpeed());
+    }
 }
 
 var globalCounter = 0;
@@ -445,8 +449,10 @@ $('#chanceSlider').on('change', function(){
 });
 
 function updateSpeed() {
-    clearInterval(context.repeater);
-    context.repeater = setInterval(sessionTick, getSpeed());
+    if (context.repeater!=null) {
+        clearInterval(context.repeater);
+        context.repeater = setInterval(sessionTick, getSpeed());
+    }
 }
 
 function randomCreate() {

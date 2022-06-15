@@ -136,7 +136,7 @@ describe('create grid with values', function () {
       var result = uut.killLivingCells();
 
       assert.equal(JSON.stringify(expectedLivingCells), JSON.stringify(result), "Killed should be all living ones");
-      assert.equal(0, uut.getLivingCells.length, "Expected number of living cells is zero");
+      assert.equal(0, uut.getLivingCells().length, "Expected number of living cells is zero");
   });
   
 });

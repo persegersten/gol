@@ -50,12 +50,14 @@ class Grid {
         //console.log('this.cols typeof : ' + (typeof this.cols));
         var livingCells = new Array();
         var nofCols = this.cols;
+        var outerThis = this;
         this.cells.forEach(function (value, index) {
             if (value) {
                 //console.log("index/noCols " + index + "/" + nofCols + "=" + Math.floor(index/nofCols));
                 //console.log("index%noCols " + index + "/" + nofCols + "=" + index%nofCols);
                 livingCells.push([Math.floor(index/nofCols),index%nofCols]);
-                value = false;
+                outerThis.cells[index] = false;
+                //Grid.this.setState2(index, false);
             }
         })
         return livingCells;
