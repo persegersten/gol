@@ -103,7 +103,9 @@ function createInteractionMenu() {
     });
 
     $("#btn_refresh").on("click", function(){
-        createGrid();
+        console.log("Refresh");
+        resetModel();
+
     });
 }
 
@@ -386,6 +388,13 @@ $(document).ready(function() {
     context.repeater = setInterval(sessionTick, getSpeed());
 });
 
+function resetModel() {
+    clearInterval(context.repeater);
+    var result = model.resetAllGrids();
+    result.forEach(myFunctionDie);
+    context.repeater = setInterval(sessionTick, getSpeed());
+}
+
 var globalCounter = 0;
 var counter = 0;
 export function sessionTick(){
@@ -398,25 +407,20 @@ export function sessionTick(){
     globalCounter++;
     var result;
     if (counter >= context.currentSpeedMod) {
-        //console.log("Do iteration2 " + counter%context.currentSpeedMod);
         result = model.iterate();
         counter = 0;
     } else {
         result = model.iterateEvents();
     }
-    // console.log("tick " + counter + " " + context.currentSpeedMod);
-    // console.log("tick " + JSON.stringify(result));
     result[0].forEach(myFunctionLive);
     result[1].forEach(myFunctionDie);
 
     var r = Math.random();
     var p = context.createValues[context.theCreateIndex];
-    //console.log("r=" + r + " p=" + p);
+    
     if (r < p) {
-        //console("true");
         randomCreate();
     } else {
-        //console.log("false");
     }
 
     context.nofThreads--;

@@ -45,6 +45,22 @@ class Grid {
         return livingCells;
     }
 
+    killLivingCells() {
+        //console.log('this.cols : ' + this.cols);
+        //console.log('this.cols typeof : ' + (typeof this.cols));
+        var livingCells = new Array();
+        var nofCols = this.cols;
+        this.cells.forEach(function (value, index) {
+            if (value) {
+                //console.log("index/noCols " + index + "/" + nofCols + "=" + Math.floor(index/nofCols));
+                //console.log("index%noCols " + index + "/" + nofCols + "=" + index%nofCols);
+                livingCells.push([Math.floor(index/nofCols),index%nofCols]);
+                value = false;
+            }
+        })
+        return livingCells;
+    }
+
     adjacentCells = [[-1, -1], [-1, 0], [-1, 1],
                     [0, -1],            [0, 1],
                     [1, -1],  [1, 0],   [1, 1]];
@@ -168,6 +184,10 @@ class GridController {
 
     getLivingCells() {
         return this.grid.getLivingCells();
+    }
+
+    resetAllGrids() {
+        return this.grid.killLivingCells();
     }
 }
 
