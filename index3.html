@@ -14,24 +14,20 @@
 		module.sessionTickFromModule = sessionTick;
 		module.switchThemeFromModule = switchTheme;
 	</script>
-	<div id="gol_control_bar">
-		<button id="btn_onoff" title="On/Off">
-			<img src="icons8-pause-50.png" height="35"/>
-		</button>
-		&nbsp;
-		<button id="btn_refresh" title="Clear grid"> 
-			<img src="icons8-refresh-50.png" height="35"/>
-		</button>
-	    &nbsp;
-		<input id="speedrange" type="range" min="0" max="99" value="75" title="Speed" aria-label="Speed">
-	    &nbsp;
-		<span id="speed"></span>
-	    &nbsp;
-		<input id="autocreaterange" type="range" min="0" max="99" value="75" title="Auto create" aria-label="Auto create">
-	    &nbsp;
-		<span id="autocreate"></span>
-	</div>
-	<hr>
+	Hi there!
+	<button id="settings">Settings</button>
+	<div id="interaction">
+	<select id="theme-selector" onchange="module.switchThemeFromModule()">
+		<option value="1">Theme 1</option>
+		<option value="2">Theme 2</option>
+		<option value="3">Theme 3</option>
+	</select>
+	<br>
+	<input type="range" id="chanceSlider" class="vHorizon" min="0" max="6" step="1" style="background-color: #00aec8; width: 25%;">
+	Speed: <span id="speedName"></span> - Direction: <span id="direction"></span>
+	<br>
+    </div>
 	<div id="container"></div>
 </body>
+
 </html>
