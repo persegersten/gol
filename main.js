@@ -84,21 +84,16 @@ function createInteractionMenu() {
     $("#speed").text(context.speedName[context.theSpeedIndex]);
     $("#autocreate").text(context.createName[context.theSpeedIndex]);
 
-    $("#btn_play").css("visibility", "hidden"); 
-    $("#btn_stop").css("visibility", "visible");
-
     // Handler for the toggle button.
     $("#btn_onoff").on("click", function(){
         console.log("Clicked toggle");
         $(this).toggleClass("active");
         if($(this).hasClass("active")){
-            $("#btn_play").css("visibility", "visible"); 
-            $("#btn_stop").css("visibility", "hidden");
+            $(this).find('img').attr("src", "icons8-start-50.png");
             clearInterval(context.repeater);
             context.repeater = null;
          } else {
-            $("#btn_play").css("visibility", "hidden"); 
-            $("#btn_stop").css("visibility", "visible");
+            $(this).find('img').attr("src", "icons8-pause-50.png");
             context.repeater = setInterval(sessionTick, getSpeed());
          }
     });
