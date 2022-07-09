@@ -12,6 +12,7 @@ html, body {
 	width:100%;
 	padding: 0;
 	border: none;
+	float: none;
 }
 
 .cell {
@@ -22,4 +23,24 @@ html, body {
 	display:inline-block;
     height:100%;
     width:100%;
+}
+
+#block_container_2
+{
+    text-align:center;
+	width: 100%;
+}
+#information_bar
+{
+	float: left;
+    display:inline-block;
+	outline:1px solid #FF0000;
+}
+
+#gol_control_bar
+{
+	float: right;
+	display:inline-block;
+	text-align:right;
+	outline:1px solid #00FF00;
 }

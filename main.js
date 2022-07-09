@@ -49,7 +49,7 @@ function createInteractionMenu() {
         ["moverB", "Blinkare", interactionNop, interactionBlinkOnClick],
         ["moverDir", "Direction", interactionNop, interactionDirectionAwareGliderOnClick]
     ];
-    console.log("Hi there");
+    //console.log("Hi there");
     interactStrategy.forEach(function(s) {
         //console.log(s[0]);
         $("#interaction").append("<button id='"+ s[0] + "'>"+s[1]+"</button>");
@@ -86,7 +86,7 @@ function createInteractionMenu() {
 
     // Handler for the toggle button.
     $("#btn_onoff").on("click", function(){
-        console.log("Clicked toggle");
+        console.log("Clicked on/off toggle");
         $(this).toggleClass("active");
         if($(this).hasClass("active")){
             $(this).find('img').attr("src", "icons8-start-50.png");
@@ -377,7 +377,7 @@ function resizedw(){
 }
 
 $(document).ready(function() {
-    console.log("Document ready");
+    //console.log("Document ready");
     createInteractionMenu();
     createGrid();
     context.repeater = setInterval(sessionTick, getSpeed());
@@ -387,8 +387,8 @@ function resetModel() {
     clearInterval(context.repeater);
     var result = model.resetAllGrids();
     result.forEach(myFunctionDie);
-    console.log("Killed cells - " + JSON.stringify(result));
-    console.log("Living cells - " + JSON.stringify(model.getLivingCells()));
+    //console.log("Killed cells - " + JSON.stringify(result));
+    //console.log("Living cells - " + JSON.stringify(model.getLivingCells()));
     if (context.repeater!=null) {
         context.repeater = setInterval(sessionTick, getSpeed());
     }
