@@ -195,6 +195,8 @@ function createGrid() {
         context.currentClickStrategy(r,c);
     
     });
+
+    randomCreate();
 };
 
 function interactionClickOnMouseOver(r, c) {

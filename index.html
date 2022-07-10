@@ -14,33 +14,40 @@
 		module.sessionTickFromModule = sessionTick;
 		module.switchThemeFromModule = switchTheme;
 	</script>
-	<div id="block_container">
-		<div id="information_bar">
-			<span id="title">Segersten IT</span>&nbsp;<span>- <a href="https://www.linkedin.com/in/per-segersten-5388092/">cv</a></span>
-		</div>
-		<div id="gol_control_bar">
-			<span><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a></span>
-	    	&nbsp;
-			<input id="speedrange" type="range" min="0" max="99" value="75" title="Speed" aria-label="Speed">
-	    	&nbsp;
-			<span id="speed"></span>
-	    	&nbsp;
-			<input id="autocreaterange" type="range" min="0" max="99" value="75" title="Auto create" aria-label="Auto create">
-	    	&nbsp;
-			<span id="autocreate"></span>
-			&nbsp;
-			<button id="btn_onoff" title="On/Off">
-				<img id="onof_img" src="icons8-pause-50.png" height="35"/>
-			</button>
-			&nbsp;
-			<button id="btn_refresh" title="Clear grid"> 
-				<img src="icons8-refresh-50.png" height="35"/>
-			</button>
-		</div>
-    </div>
-	<hr>
-	<br>
-	<hr>
+	<table style="width:100%">
+		<tr>
+			<td style="text-align:left">
+				<div id="information_bar">
+					<span id="title">Segersten IT</span>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align:right">
+				<div id="gol_control_bar">
+					<span><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a>
+						&nbsp;-&nbsp;Settings:
+					</span>
+					
+					<input id="speedrange" type="range" min="0" max="99" value="75" title="Speed" aria-label="Speed">
+					&nbsp;
+					<span id="speed"></span>
+					&nbsp;
+					<input id="autocreaterange" type="range" min="0" max="99" value="75" title="Auto create" aria-label="Auto create">
+					&nbsp;
+					<span id="autocreate"></span>
+					&nbsp;
+					<button id="btn_onoff" title="On/Off">
+						<img id="onof_img" src="icons8-pause-50.png" height="35"/>
+					</button>
+					&nbsp;
+					<button id="btn_refresh" title="Clear grid"> 
+						<img src="icons8-refresh-50.png" height="35"/>
+					</button>
+				</div>
+			</td>
+		</tr>
+	</table>
 	<div id="container"></div>
 </body>
 </html>

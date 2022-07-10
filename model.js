@@ -145,13 +145,11 @@ class GridController {
     }
 
     iterateImpl(onlyEvents) {
-        //const toLive = Array.from(this.clickedEvents);
         const toLive = this.clickedEvents.map(e => this.adjustCoords(e[0], e[1]));
         const toDie = new Array();
         this.clickedEvents = new Array();
 
         if (!onlyEvents) {
-            // TODO move iteration to model, pass lambda instead
             for (var r=0; r<this.grid.rows; r++) {
                 for (var c=0; c<this.grid.cols; c++) {
                     var numberOfLivingNeighbours = this.grid.livingNeighboursCount(r,c);
