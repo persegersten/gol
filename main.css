@@ -1,5 +1,6 @@
 html, body {
-    margin:0px;
+    max-width: 95%;
+	margin: auto;
 }
 
 #container {
