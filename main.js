@@ -156,6 +156,14 @@ function createGrid() {
     nofRows = Math.ceil(height/cellSize + 1);
     nofCols = Math.ceil(width/cellSize + 1);
 
+    console.log("width=" + width + " height=" + height);
+    console.log("nofCols=" + nofCols + " nofRows=" + nofRows);
+    if (nofCols<=0 || nofRows<=0) {
+        console.log("No grid created, nofCols=" + nofCols + " nofRows=" + nofRows + " change to 1");
+        nofRows = 1; 
+        nofCols = 1;
+    }
+
     for (var row = 0; row < nofRows; row++) {
         $("#container").append("<br>");
         for (var column = 0; column < nofCols; column++) {
