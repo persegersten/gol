@@ -164,6 +164,8 @@ function createGrid() {
         nofCols = 1;
     }
 
+    $("#container").empty();
+
     for (var row = 0; row < nofRows; row++) {
         $("#container").append("<br>");
         for (var column = 0; column < nofCols; column++) {
