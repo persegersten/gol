@@ -84,10 +84,35 @@ function createInteractionMenu() {
     $("#speed").text(context.speedName[context.theSpeedIndex]);
     $("#autocreate").text(context.createName[context.theSpeedIndex]);
 
-    // Handler for the toggle button.
+    $("#turbo_speed").click(function() {
+    console.log("Clicked turbo speed");
+    
+    if ($(this).is(':checked')) {
+        context.theSpeedIndex = 0;
+     } else {
+        context.theSpeedIndex = 2;   
+     }
+
+     updateSpeed();
+    });
+
+    $("#auto_activate").prop('checked', true);
+    context.theCreateIndex = 1;
+    $("#auto_activate").click(function() {
+        console.log("Clicked auto activate");
+        
+        if ($(this).is(':checked')) {
+            context.theCreateIndex = 1;
+        } else {
+            context.theCreateIndex = 4;   
+         }
+        });
+
     $("#btn_onoff").on("click", function(){
         console.log("Clicked on/off toggle");
         $(this).toggleClass("active");
+        $(this).toggleClass("mdi-pause");
+        $(this).toggleClass("mdi-play");
         if($(this).hasClass("active")){
             $(this).find('img').attr("src", "icons8-start-50.png");
             clearInterval(context.repeater);
