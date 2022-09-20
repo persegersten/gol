@@ -394,6 +394,19 @@ function clearGrid(){
 
 var doit;
 $(window).resize((event) => {
+    var cellSize = 25
+    var box = document.querySelector('#container');
+    var width = box.offsetWidth - 50;
+    var height = box.offsetHeight - 150;
+    
+    nofRows = Math.ceil(height/cellSize + 1);
+    nofCols = Math.ceil(width/cellSize + 1);
+
+    if (model != null && nofCols == model.grid.cols && nofRows == model.grid.rows) {
+        console.log("Keep grid");
+        return;
+    }
+    
   createRuntimeContext();
   clearTimeout(doit);
   clearGrid();
