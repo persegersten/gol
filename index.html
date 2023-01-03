@@ -6,8 +6,6 @@
 		<title>segersten.eu</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">    
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css">
-		<!-- script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script-->
-    <!-- <link rel="stylesheet" href="styles/debug.css"> -->
         <style>
             
           .center {
@@ -29,22 +27,36 @@
             height:100%;
             width:100%;
           }
+          #golCanvas {
+            background: lightgray;
+            margin: auto;
+            display: block;
+            max-width: 100%;
+            width: 100%;
+            height: 300px;
+          }
+          .golInput:hover {
+            background-color: lightgrey;
+            border: 1px solid black;
+          }
                       
                   </style>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	</head>
 	<body>
     <script type="module">
-      import "./main.js";
+      import "./main2.js";
     </script>
 		<section class="hero has-background-black">
       <div class="hero-body">
         <div class="container">
-					<figure class="image center
+					<figure class="image center">
           <div class="container">
             <h1 class="title">
               Segersten IT
               </h1>
+          </div>
+          </figure>
           </div>
       </div>
   </section>
@@ -53,45 +65,50 @@
     <div class="container">
     <div class="columns">
       <div class="column">
-        <div class="tile is-vertical">
-            <div class="notification is-primary"><p class="subtitle">
-              Enjoy the <strong><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a></strong>!
-              </p>
+        <div class="tile is-vertical is-parent">
+            <div class="tile is-child box">
+              <div class="notification is-primary"><p class="subtitle">
+                Info about <strong><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a></strong>
+                </p>
+                <p class="subtitle">
+                  Visit the <strong><a href="physics.html">physics engine</a></strong>
+                </p>
+              </div>
             </div>
+            &nbsp;
           </div>
       </div>    
       <div class="column">
         <div class="tile is-vertical is-parent">
           <div class="tile is-child box">
             <div id="gol_control_bar">
-              <label class="checkbox">
-                <input id="auto_activate" type="checkbox">
-                Auto activate cells
-              </label>
-              <label class="checkbox">
-                <input id="turbo_speed" type="checkbox">
-                Turbo speed
-              </label>
               <span class="icon-text">
                 <span class="icon is-medium">
-                  <i id="btn_onoff" class="mdi mdi-24px mdi-pause"></i>
+                <i id="turbo_speed" class="mdi mdi-24px mdi-run-fast golInput"></i>
+              </span>
+              <span>Speed</span>
+            </span>
+              <span class="icon-text">
+                <span class="icon is-medium">
+                  <i id="btn_onoff" class="mdi mdi-24px mdi-pause golInput"></i>
                 </span>
                 <span>Run/Pause</span>
               </span>
-              <span class="icon-text"></span>
+              <span class="icon-text">
                 <span class="icon is-medium">
-                  <i id="btn_refresh" class="mdi mdi-24px mdi-reload"></i>
+                  <i id="btn_refresh" class="mdi mdi-24px mdi-reload golInput"></i>
                 </span>
-                <span>Clear</span>
+                <span>Restart</span>
               </span>
-              </div>
+            </div>
           </div>
           <div class="tile is-child box">
-            <div id="container"></div>
-          </div>
+            <canvas id="golCanvas" class="is-fullwidth" height="300px"></canvas>
           </div>
       </div>
+    </div>
   </div>
+</div>
   </section>
 	</body>
 </html>

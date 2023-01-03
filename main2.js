@@ -67,7 +67,9 @@ button_turbo_speed.addEventListener('click', (event) => {
     } else {
       speed_millis = SLOW;
     }
-    repeater = setInterval(sessionTick, speed_millis);
+    if (repeater != null) {
+      repeater = setInterval(sessionTick, speed_millis);
+    }
     updateMenuIcons();
   });
 
