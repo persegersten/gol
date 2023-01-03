@@ -67,15 +67,25 @@
       <div class="column">
         <div class="tile is-vertical is-parent">
             <div class="tile is-child box">
-              <div class="notification is-primary"><p class="subtitle">
-                Info about <strong><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a></strong>
+              <div class="notification is-primary">
+                <p>
+                  An implementation of <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Game of Life</a>.
                 </p>
-                <p class="subtitle">
-                  Visit the <strong><a href="physics.html">physics engine</a></strong>
+              </div>
+              <div class="notification is-info">
+                <p>Each cell follows the rules listed below</p>
+                  <l class="menu">
+                    <li>Any live cell with two or three live neighbours survives.</li>
+                    <li>Any dead cell with three live neighbours becomes a live cell.</li>
+                    <li>All other live cells die in the next generation. Similarly, all other dead cells stay dead.</li>
+                  </l>
+                </div>
+                <div class="notification is-link">  
+                <p>
+                  (Also visit the simple <strong><a href="physics.html">physics engine</a>)
                 </p>
               </div>
             </div>
-            &nbsp;
           </div>
       </div>    
       <div class="column">
