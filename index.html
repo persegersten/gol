@@ -6,26 +6,14 @@
 		<title>segersten.eu</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.0/css/bulma.min.css">    
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css">
-        <style>
-            
+        <style> 
           .center {
               display: flex;
               justify-content: center;
               align-items: center;
           }
-          #container {
-            min-height:400px;
-            width:100%;
-            position: relative;
-          }
-          .cell {
-	          margin:0;
-	          padding:0;
-	          border:none;
-	          outline:1px solid #000;
-	          display:inline-block;
-            height:100%;
-            width:100%;
+          .custom-width {
+            width: 100%;
           }
           #golCanvas {
             background: lightgray;
@@ -33,21 +21,19 @@
             display: block;
             max-width: 100%;
             width: 100%;
-            height: 300px;
+            height: 400px;
           }
           .golInput:hover {
             background-color: lightgrey;
             border: 1px solid black;
-          }
-                      
-                  </style>
-      script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          }                      
+      </style>
 	</head>
 	<body>
     <script type="module">
       import "./main2.js";
     </script>
-		<section class="hero has-background-black">
+    <section class="hero has-background-black">
       <div class="hero-body">
         <div class="container">
 					<figure class="image center">
@@ -60,11 +46,10 @@
           </div>
       </div>
   </section>
-  <!-- /.section -->
   <section class="section">
     <div class="container">
-    <div class="columns">
-      <div class="column">
+    <div class="columns is-gapless is-multiline custom-width">
+      <div class="column is-4">
         <div class="tile is-vertical is-parent">
             <div class="tile is-child box">
               <div class="notification is-primary">
@@ -79,16 +64,16 @@
                     <li>Any dead cell with three live neighbours becomes a live cell.</li>
                     <li>All other live cells die in the next generation. Similarly, all other dead cells stay dead.</li>
                   </l>
-                </div>
-                <div class="notification is-link">  
+              </div>
+              <div class="notification is-link">  
                 <p>
                   (Also visit the simple <a href="physics.html">physics engine</a>)
                 </p>
               </div>
             </div>
-          </div>
-      </div>    
-      <div class="column">
+         </div>
+      </div>
+      <div class="column is-8">
         <div class="tile is-vertical is-parent">
           <div class="tile is-child box">
             <div id="gol_control_bar">
@@ -115,10 +100,10 @@
           <div class="tile is-child box">
             <canvas id="golCanvas" class="is-fullwidth" height="300px"></canvas>
           </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-  </section>
+    </div> 
+  </section>   
 	</body>
 </html>

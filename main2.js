@@ -50,8 +50,15 @@ function adjustToCanvas() {
 
 function initGrid() {
   grid = createGrid();
-  repeater = setInterval(sessionTick, speed_millis);
+  startTimer()
   updateMenuIcons();
+}
+
+function startTimer() {
+  if (repeater != null) {
+    clearInterval(repeater);
+  }
+  repeater = setInterval(sessionTick, speed_millis);
 }
 
 function sessionTick() {
@@ -60,15 +67,14 @@ function sessionTick() {
 }
 
 const button_turbo_speed = document.getElementById('turbo_speed');
-button_turbo_speed.addEventListener('click', (event) => {
-    clearInterval(repeater);
+button_turbo_speed.addEventListener('click', (event) => { 
     if (speed_millis == SLOW) {
       speed_millis = FAST;
     } else {
       speed_millis = SLOW;
     }
     if (repeater != null) {
-      repeater = setInterval(sessionTick, speed_millis);
+      startTimer();
     }
     updateMenuIcons();
   });
@@ -76,7 +82,7 @@ button_turbo_speed.addEventListener('click', (event) => {
   const button_onoff = document.getElementById('btn_onoff');
   button_onoff.addEventListener('click', (event) => {
     if (repeater == null) {
-      repeater = setInterval(sessionTick, speed_millis); 
+      startTimer(); 
     } else {
       clearInterval(repeater);
       repeater = null;
