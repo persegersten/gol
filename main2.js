@@ -107,6 +107,7 @@ button_turbo_speed.addEventListener('click', (event) => {
     var newHeight = Math.floor(canvas.offsetHeight/10);
     if (newWidth != width || newHeight != height) {
       adjustToCanvas();
+      clearInterval(repeater);
       initGrid();
     }
   });
